@@ -77,12 +77,12 @@ export default async function AdminPage() {
       </div>
 
       {/* ✅ Back Button */}
-      <a
+      <Link
         href="/"
         className="mt-6 block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-200 text-center max-w-xs"
       >
         ← Back to Homepage
-      </a>
+      </Link>
     </main>
   );
 }
