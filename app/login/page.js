@@ -3,14 +3,11 @@
 import { useActionState } from "react";
 import { login } from "./actions";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 const initialState = { error: null };
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
-  const next = searchParams.get("next") || "/admin";
-
+  const next = "/admin";
   const [state, formAction] = useActionState(login, initialState);
 
   return (
