@@ -1,12 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import { supabase } from "../lib/supabase";
+import { useState, useEffect } from "react";
+import supabase from "@/lib/supabaseBrowser";
+import Link from "next/link";
 
 export default function Page() {
+  const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data?.user || null);
+    };
+    getUser();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.reload(); // Refresh to clear state
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +64,20 @@ export default function Page() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 relative">
+      {/* ✅ Logged-in user display (top-right) */}
+      {user && (
+        <div className="absolute top-6 right-6 bg-white shadow px-4 py-2 rounded text-sm text-gray-700 flex items-center gap-3">
+          Logged in as: <span className="font-semibold">{user.email}</span>
+          <button
+            onClick={handleSignOut}
+            className="ml-2 text-red-600 hover:underline"
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
         <h1 className="text-xl font-semibold mb-4 text-center">Sign Up Form</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -84,6 +112,13 @@ export default function Page() {
           </p>
         )}
       </div>
+
+      <Link
+        href="/admin"
+        className="block text-center mt-4 text-blue-600 hover:underline text-sm"
+      >
+        Admin Panel
+      </Link>
     </main>
   );
 }
