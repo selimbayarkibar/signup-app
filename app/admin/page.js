@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabaseServer";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic"; // always fetch fresh data per request
 
