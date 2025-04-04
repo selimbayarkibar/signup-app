@@ -20,7 +20,7 @@ export default function Page() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    window.location.reload(); // Refresh to clear state
+    window.location.reload(); // Refresh to clear user state
   };
 
   const handleSubmit = async (e) => {
@@ -43,17 +43,19 @@ export default function Page() {
     const { error } = await supabase.from("users").insert([{ name, email }]);
 
     if (error) {
+      // ✅ Check for duplicate email error first
       if (
-        error.message.toLowerCase().includes("check constraint") ||
-        error.message.toLowerCase().includes("email")
-      ) {
-        setStatus("❌ Email must match the format user@domain.com");
-      } else if (
-        error.code === "23505" ||
-        error.message.includes("duplicate key")
+        error.code === "23505" || // unique_violation
+        error.message.toLowerCase().includes("duplicate key")
       ) {
         setStatus("A user with this email already exists.");
-      } else {
+      }
+      // ✅ Check for formatting or constraint issues
+      else if (error.message.toLowerCase().includes("check constraint")) {
+        setStatus("❌ Email must match the format user@domain.com");
+      }
+      // ✅ General fallback
+      else {
         setStatus("❌ Error: " + error.message);
       }
     } else {
@@ -65,7 +67,7 @@ export default function Page() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 relative">
-      {/* Logged-in user display (top-right) */}
+      {/* ✅ Logged-in user display */}
       {user && (
         <div className="absolute top-6 right-6 bg-white shadow px-4 py-2 rounded text-sm text-gray-700 flex items-center gap-3">
           Logged in as: <span className="font-semibold">{user.email}</span>
@@ -114,7 +116,7 @@ export default function Page() {
       </div>
 
       <Link
-        href="/admin"
+        href="/login"
         className="block text-center mt-4 text-blue-600 hover:underline text-sm"
       >
         Admin Panel
