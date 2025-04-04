@@ -116,7 +116,7 @@ export default function Page() {
       </div>
 
       <Link
-        href="/login"
+        href="/admin"
         className="block text-center mt-4 text-blue-600 hover:underline text-sm"
       >
         Admin Panel
