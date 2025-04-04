@@ -20,7 +20,7 @@ export async function login(prevState, formData) {
     return { error: "❌ Invalid credentials" };
   }
 
-  const allowedAdmins = ["a@b.com"]; // ✅ your admin emails
+  const allowedAdmins = ["a@b.com"];
   const isAdmin = allowedAdmins.includes(sessionData.session.user.email);
 
   if (!isAdmin) {

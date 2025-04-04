@@ -65,7 +65,7 @@ export default function Page() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 relative">
-      {/* ✅ Logged-in user display (top-right) */}
+      {/* Logged-in user display (top-right) */}
       {user && (
         <div className="absolute top-6 right-6 bg-white shadow px-4 py-2 rounded text-sm text-gray-700 flex items-center gap-3">
           Logged in as: <span className="font-semibold">{user.email}</span>

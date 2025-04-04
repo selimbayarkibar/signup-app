@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"; // always fetch fresh data per request
 export default async function AdminPage() {
   const supabase = createClient();
 
-  // ✅ Fetch authenticated user (session-aware)
+  // Fetch authenticated user (session-aware)
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -20,7 +20,7 @@ export default async function AdminPage() {
     );
   }
 
-  // ✅ Fetch all registered users
+  // Fetch all registered users
   const { data: users, error } = await supabase
     .from("users")
     .select("name, email, created_at")
@@ -37,12 +37,12 @@ export default async function AdminPage() {
 
   return (
     <main className="min-h-screen p-6 bg-gray-100 relative flex flex-col items-center">
-      {/* ✅ User info top-right */}
+      {/* User info top-right */}
       <div className="absolute top-6 right-6 bg-white shadow px-4 py-2 rounded text-sm text-gray-700">
         Logged in as: <span className="font-semibold">{user.email}</span>
       </div>
 
-      {/* ✅ Users Table */}
+      {/* Users Table */}
       <div className="max-w-4xl w-full bg-white p-6 rounded shadow">
         <h1 className="text-2xl font-bold mb-4 text-center">
           Registered Users
@@ -77,7 +77,7 @@ export default async function AdminPage() {
         )}
       </div>
 
-      {/* ✅ Back Button */}
+      {/* Back Button */}
       <Link
         href="/"
         className="mt-6 block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-200 text-center max-w-xs"
